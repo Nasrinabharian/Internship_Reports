@@ -1,5 +1,5 @@
 # Internship_Reports
 Features: 
-  Authentication\n
-  Create, update & delete reports\n
-  Make a list of reports
+  1.Authentication
+  2.Create, update & delete reports
+  3.Make a list of reports
