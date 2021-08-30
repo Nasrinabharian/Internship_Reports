@@ -10,8 +10,10 @@ class reportTable(forms.ModelForm):
     class Meta:
         model = internship_report
         template_name = "django_tables2/bootstrap.html"
-        fields = ("title",
-        "receiver_name",
-        "description",
-        "file", "status")
-    
+        fields = (
+            "title",
+            "receiver_name",
+            "description",
+            "file",
+            "status"
+            )

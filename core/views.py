@@ -1,9 +1,18 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
+from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User,auth
+from django.contrib.auth.models import User
+from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import TemplateView
+from django.views.generic import CreateView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
+from django.views.generic import DetailView
+from django.views.generic import DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from core.models import internship_report
 from django_tables2 import SingleTableView
 from .forms import reportTable
@@ -12,27 +21,24 @@ from django import forms
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView
-)
 from django.forms import ModelForm
 from .models import internship_report
 from django.utils.html import format_html
 class ReportForm(forms.ModelForm):
     class Meta:
         model = internship_report
-        fields = ["title", "receiver_name", "description", "file", "status"]
+        fields = [
+            "title",
+            "receiver_name",
+            "description",
+            "file",
+            "status"
+            ]
 
 
 def home(request):
     count = User.objects.count()
-    return render(request, 'home.html', {
-    'count': count
-    })
+    return render(request, 'home.html', {'count': count})
 
 def signup(request):
     if request.method == 'POST':
@@ -42,16 +48,13 @@ def signup(request):
             return redirect('home')
     else:
         form = UserCreationForm()
-    return render(request, 'registration/signup.html', {
-    'form': form
-    })
+    return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
 def secret_page(request):
     if request.method == "GET":
         form = reportTable()
-        return render(request, 'secret_page.html', {
-        'form': form})
+        return render(request, 'secret_page.html', {'form': form})
     else:
         form = reportTable(request.POST, request.FILES)
         if form.is_valid():
@@ -77,8 +80,7 @@ def update_report(request, pk):
     if request.method == "GET":
         report = internship_report.objects.get(pk=pk)
         form = reportTable(instance=report)
-        return render(request, 'secret_page.html', {
-        'form': form})
+        return render(request, 'secret_page.html', {'form': form})
     else:
         report = internship_report.objects.get(pk=pk)
         form = reportTable(request.POST, request.FILES, instance= report)
